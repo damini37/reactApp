@@ -22,7 +22,7 @@ var CreateCountryLayout = createReactClass({displayName: "CreateCountryLayout",
 
 var CreateCountryRow = createReactClass({displayName: "CreateCountryRow",
   render:function(){
-      console.log("Row rendered")
+      //console.log("Row rendered")
       var column = [];
       for (var i = 0; i < 4; i++) {
         column.push((<CreateCountryColumn itemArray={this.props.itemArray} onClick={this.handleClick}></CreateCountryColumn>));
@@ -33,11 +33,14 @@ var CreateCountryRow = createReactClass({displayName: "CreateCountryRow",
 
 var CreateCountryColumn=createReactClass({displayName: "CreateCountryColumn",
 	handleClick:function(e){
-
+    console.log(e.target);
 	},
+  handleKeyPress:function(e){
+
+  },
 	render: function() {
-    console.log("Column rendered")
-    console.log(itemNo)
+    //console.log("Column rendered")
+    //console.log(itemNo)
     itemNo++;
     var val, icon;
     if(this.props.itemArray[itemNo] != undefined) {
@@ -47,11 +50,12 @@ var CreateCountryColumn=createReactClass({displayName: "CreateCountryColumn",
       val="";
       icon="";
     }
-    console.log(icon);
+  //  console.log(icon);
     var div = <div className="col">
                   <div className="nameDiv">
                     <img src= {icon}/>
-                    <span>{val}</span>
+                    <span className="nameSpan" onclick={this.handleClick}>{val}</span>
+                    <input className="nameInput hidden" value={val} onKeyPress={this.handleKeyPress}></input>
                   </div>
                 </div>
     return div;
