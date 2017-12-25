@@ -62,11 +62,11 @@ class CountryName extends React.Component{
     //       )
     //     );
     // <Image src={require(ratingIconUrl)} style={styles.ratingImage} />
-    return <div class="row">
-      <div class="col"><div class="nameDiv"><img src={require('./icon.jpg')} /><span>name</span></div></div>
-      <div class="col"><div class="nameDiv"><img src={require('./icon.jpg')} /><span>name</span></div></div>
-      <div class="col"><div class="nameDiv"><img src={require('./icon.jpg')} /><span>name</span></div></div>
-      <div class="col"><div class="nameDiv"><img src={require('./icon.jpg')} /><span>name</span></div></div>
+    return <div className="row">
+      <div className="col"><div className="nameDiv"><img src={require('./icon.jpg')} /><span>name</span></div></div>
+      <div className="col"><div className="nameDiv"><img src={require('./icon.jpg')} /><span>name</span></div></div>
+      <div className="col"><div className="nameDiv"><img src={require('./icon.jpg')} /><span>name</span></div></div>
+      <div className="col"><div className="nameDiv"><img src={require('./icon.jpg')} /><span>name</span></div></div>
 
     </div>;
   }
@@ -95,14 +95,14 @@ class App extends Component {
 
     return (
       <div>
-        <div class="row">
-          <div class="col-2"></div>
-            <div class="col-5 mainDiv">
+        <div className="row">
+          <div className="col-2"></div>
+            <div className="col-5 mainDiv">
                 <div>
                   <SearchInput className="search-input" onChange={this.searchUpdated} />
-                  {filteredEmails.map(email => {
+                  {filteredEmails.map((email, index) => {
                     return (
-                      <div className="mail" key={email.id}>
+                      <div key={index} className="mail" key={email.id}>
                         <div className="from">{email.user.name}</div>
                         <div className="subject">{email.subject}</div>
                       </div>
@@ -113,14 +113,14 @@ class App extends Component {
 
 
 
-                <div class="btnDiv">
-                  <div class="row">
-                    <button label="NEW" class="col newBtn">NEW</button>
-                    <button label="DELETE" class="col delBtn">DELETE</button>
+                <div className="btnDiv">
+                  <div className="row">
+                    <button label="NEW" className="col newBtn">NEW</button>
+                    <button label="DELETE" className="col delBtn">DELETE</button>
                   </div>
                 </div>
             </div>
-          <div class="col-5"></div>
+          <div className="col-5"></div>
         </div>
       </div>
     )
