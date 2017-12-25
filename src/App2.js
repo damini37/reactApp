@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import SearchInput, {createFilter} from 'react-search-input';
+import $ from 'jquery'
 
-//var React = require('react');
-var ReactDOM = require('react-dom');
+
 var createReactClass = require('create-react-class');
 
 
@@ -96,8 +96,8 @@ class App extends Component {
     return (
       <div>
         <div className="row">
-          <div className="col-2"></div>
-            <div className="col-5 mainDiv">
+          <div className="col-4"></div>
+            <div className="col-3 mainDiv">
                 <div>
                   <SearchInput className="search-input" onChange={this.searchUpdated} />
                   {filteredEmails.map((email, index) => {
@@ -110,13 +110,12 @@ class App extends Component {
                   })}
                 </div>
 
-                <div class="gridContainer">
+                <div className="gridContainer " id="scrollDes">
                   <CountryName /><CountryName /><CountryName /><CountryName />
                   <CountryName /><CountryName /><CountryName /><CountryName />
                   <CountryName /><CountryName /><CountryName /><CountryName />
                   <CountryName /><CountryName /><CountryName /><CountryName />
                 </div>
-
 
                 <div className="btnDiv">
                   <div className="row">
@@ -125,7 +124,7 @@ class App extends Component {
                   </div>
                 </div>
             </div>
-          <div className="col-5"></div>
+          <div className="col-4"></div>
         </div>
       </div>
     )
