@@ -110,7 +110,12 @@ class App extends Component {
                   })}
                 </div>
 
-
+                <div class="gridContainer">
+                  <CountryName /><CountryName /><CountryName /><CountryName />
+                  <CountryName /><CountryName /><CountryName /><CountryName />
+                  <CountryName /><CountryName /><CountryName /><CountryName />
+                  <CountryName /><CountryName /><CountryName /><CountryName />
+                </div>
 
 
                 <div className="btnDiv">
