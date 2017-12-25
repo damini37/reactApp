@@ -1,16 +1,14 @@
 import React, {Component} from 'react'
 import SearchInput, {createFilter} from 'react-search-input';
 import $ from 'jquery'
-
-
+import iconImage from './icon.jpg'
+import _ from 'lodash'
+var ReactDOM = require('react-dom');
 var createReactClass = require('create-react-class');
-
-
 
 
 const countryData = ["INDIA", "USA", "ITALY", "JAPAN", "CHINA"];
 const selected = "";
-
 
 // import emails from './mails'
 
@@ -20,36 +18,51 @@ const KEYS_TO_FILTERS = ['user.name', 'subject', 'dest.name']
 
 var createCountryRow = createReactClass({displayName: "createCountryRow",
 render:function(){
-  var column = [];
-   this.props.itemArray.forEach(function(menuItem, index){
-       column.push(React.createElement(createCountryColumn, {key: index, onClick: this.handleClick, menuItem: menuItem}));
-   }, this);
-  return React.createElement("div", {className: "row"},  column);
-  },
-});
+  var column = _.map(this.props.itemArray, (item, index) => {
+    return (<createCountryColumn key={index} onClick={this.handleClick} menuItem={item}></createCountryColumn>)
+  })
+  return (
+    <div className="row">{column}</div>
+  )
+  //  this.props.itemArray.forEach(function(menuItem, index){
+  //      column.push(React.createElement(createCountryColumn, {key: index, onClick: this.handleClick, menuItem: menuItem}));
+  //  }, this);
+  // return React.createElement("div", {className: "row"},  column);
+  }
+})
 
 var createCountryColumn=createReactClass({displayName: "createCountryColumn",
 	handleClick:function(e){
 		this.props.onClick(e);
 	},
 	render: function() {
-			var countryStr = (
-					React.createElement("div", {className: "col"},
-					React.createElement("div", "nameDiv",
-					React.createElement("img", {src: require('./icon.jpg')}, this.props.menuItem.label)
-				)));
-        return countryStr;
+    return (
+      <div className='col'>
+        <img src= {iconImage} alt={this.props.menuItem.label}/>
+      </div>
+    )
+			// var countryStr = (
+			// 		React.createElement("div", {className: "col"},
+			// 		React.createElement("div", "nameDiv",
+			// 		React.createElement("img", {src: require('./icon.jpg')}, this.props.menuItem.label)
+			// 	)));
+        // return countryStr;
     }
 });
 
 var createCountryLayout = createReactClass({displayName: "createCountryLayout",
 render:function(){
-  var row = [];
-  this.props.itemArray.forEach(function(menuItem, index){
-      row.push(React.createElement(createCountryRow, {key: index, onClick: this.handleClick, menuItem: menuItem}));
-  }, this);
-  return React.createElement("div", {className: "gridContainer"},  row);
-  },
+  var row = _.map(this.props.itemArray, (item, index) => {
+    return (<createCountryRow key={index} onClick={this.handleClick} menuItem={item}></createCountryRow>)
+  })
+  return (
+    <div className="gridContainer">{row}</div>
+  )
+  // this.props.itemArray.forEach(function(menuItem, index){
+  //     row.push(React.createElement(createCountryRow, {key: index, onClick: this.handleClick, menuItem: menuItem}));
+  // }, this);
+  // return React.createElement("div", {className: "gridContainer"},  row);
+   }
 });
 
 class CountryName extends React.Component{
@@ -110,7 +123,8 @@ class App extends Component {
                   })}
                 </div>
 
-                <div className="gridContainer " id="scrollDes">
+
+                <div className="gridContainer" id="scrollDes">
                   <CountryName /><CountryName /><CountryName /><CountryName />
                   <CountryName /><CountryName /><CountryName /><CountryName />
                   <CountryName /><CountryName /><CountryName /><CountryName />
