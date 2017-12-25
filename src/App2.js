@@ -16,10 +16,11 @@ const KEYS_TO_FILTERS = ['user.name', 'subject', 'dest.name']
 
 
 
-var createCountryRow = createReactClass({displayName: "createCountryRow",
+var CreateCountryRow = createReactClass({displayName: "CreateCountryRow",
 render:function(){
+  console.log("Row rendered")
   var column = _.map(this.props.itemArray, (item, index) => {
-    return (<createCountryColumn key={index} onClick={this.handleClick} menuItem={item}></createCountryColumn>)
+    return (<CreateCountryColumn key={index} onClick={this.handleClick} menuItem={item}></CreateCountryColumn>)
   })
   return (
     <div className="row">{column}</div>
@@ -31,11 +32,12 @@ render:function(){
   }
 })
 
-var createCountryColumn=createReactClass({displayName: "createCountryColumn",
+var CreateCountryColumn=createReactClass({displayName: "CreateCountryColumn",
 	handleClick:function(e){
 		this.props.onClick(e);
 	},
 	render: function() {
+    console.log("Column rendered")
     return (
       <div className='col'>
         <img src= {iconImage} alt={this.props.menuItem.label}/>
@@ -50,10 +52,11 @@ var createCountryColumn=createReactClass({displayName: "createCountryColumn",
     }
 });
 
-var createCountryLayout = createReactClass({displayName: "createCountryLayout",
+var CreateCountryLayout = createReactClass({displayName: "CreateCountryLayout",
 render:function(){
+  console.log("Layout rendered")
   var row = _.map(this.props.itemArray, (item, index) => {
-    return (<createCountryRow key={index} onClick={this.handleClick} menuItem={item}></createCountryRow>)
+    return (<CreateCountryRow key={index} onClick={this.handleClick} menuItem={item}></CreateCountryRow>)
   })
   return (
     <div className="gridContainer">{row}</div>
@@ -125,10 +128,11 @@ class App extends Component {
 
 
                 <div className="gridContainer" id="scrollDes">
+                  <CreateCountryLayout itemArray={countryData}></CreateCountryLayout>
+                  {/* <CountryName /><CountryName /><CountryName /><CountryName />
                   <CountryName /><CountryName /><CountryName /><CountryName />
                   <CountryName /><CountryName /><CountryName /><CountryName />
-                  <CountryName /><CountryName /><CountryName /><CountryName />
-                  <CountryName /><CountryName /><CountryName /><CountryName />
+                  <CountryName /><CountryName /><CountryName /><CountryName /> */}
                 </div>
 
                 <div className="btnDiv">
