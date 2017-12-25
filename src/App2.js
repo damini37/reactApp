@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+
+import $ from 'jquery';
 import SearchInput, {createFilter} from 'react-search-input';
 import iconImage from './icon.jpg'
 import _ from 'lodash'
@@ -7,14 +9,11 @@ var itemNo;
 
 var countryData = ["India", "Italy", "China", "USA"];
 
-const KEYS_TO_FILTERS = ['user.name', 'subject', 'dest.name']
-
 var CreateCountryLayout = createReactClass({displayName: "CreateCountryLayout",
   render:function(){
-      console.log("Layout rendered")
       var row = [];
       for (var i = 0; i < 16; i++) {
-        row.push((<CreateCountryRow itemArray={this.props.itemArray} onClick={this.handleClick} ></CreateCountryRow>));
+        row.push((<CreateCountryRow itemArray={this.props.itemArray} editFunc={this.props.editFunc} onClick={this.handleClick} ></CreateCountryRow>));
       }
       return (<div className="gridContainer" id="scrollDes">{row}</div>)
   }
@@ -22,10 +21,9 @@ var CreateCountryLayout = createReactClass({displayName: "CreateCountryLayout",
 
 var CreateCountryRow = createReactClass({displayName: "CreateCountryRow",
   render:function(){
-      //console.log("Row rendered")
       var column = [];
       for (var i = 0; i < 4; i++) {
-        column.push((<CreateCountryColumn itemArray={this.props.itemArray} onClick={this.handleClick}></CreateCountryColumn>));
+        column.push((<CreateCountryColumn itemArray={this.props.itemArray} editFunc={this.props.editFunc} onClick={this.handleClick}></CreateCountryColumn>));
       }
       return (<div className="row">{column}</div>)
     }
@@ -33,29 +31,34 @@ var CreateCountryRow = createReactClass({displayName: "CreateCountryRow",
 
 var CreateCountryColumn=createReactClass({displayName: "CreateCountryColumn",
 	handleClick:function(e){
-    console.log(e.target);
+    $(e.target).addClass("hidden");
+    $(e.target).closest(".nameDiv").find(".nameInput").removeClass("hidden");
 	},
   handleKeyPress:function(e){
-
+    var code = e.keyCode || e.which;
+    if(code == 13) {
+      this.props.editFunc(e);
+    }
+  },
+  setFocus:function(e){
+    $(".selected").removeClass("selected");
+    $(e.target).closest(".nameDiv").addClass("selected");
   },
 	render: function() {
-    //console.log("Column rendered")
-    //console.log(itemNo)
     itemNo++;
-    var val, icon;
+    var val="", icon="", focusClass="nameDiv";
+    if(itemNo==0){
+      focusClass+=" selected";
+    }
     if(this.props.itemArray[itemNo] != undefined) {
       val = this.props.itemArray[itemNo];
       icon = iconImage;
-    } else {
-      val="";
-      icon="";
     }
-  //  console.log(icon);
     var div = <div className="col">
-                  <div className="nameDiv">
+                  <div className={focusClass} onClick={this.setFocus}>
                     <img src= {icon}/>
-                    <span className="nameSpan" onclick={this.handleClick}>{val}</span>
-                    <input className="nameInput hidden" value={val} onKeyPress={this.handleKeyPress}></input>
+                    <span className="nameSpan" onClick={this.handleClick}>{val}</span>
+                    <input className="nameInput hidden"  defaultValue={val} onKeyPress={this.handleKeyPress}></input>
                   </div>
                 </div>
     return div;
@@ -67,8 +70,21 @@ class App extends Component {
     countryData.push("New_country");
     this.setState({ country: countryData});
 	}
+  editCountryName(e){
+    var oldName = $(e.target).closest(".nameDiv").find(".nameSpan").text();
+    var newName = $(e.target).val();
+    var index=countryData.indexOf(oldName);
+    countryData.splice(1, index, newName);
+    this.setState({ country: countryData});
+    $(e.target).closest(".nameDiv").find(".nameSpan").removeClass("hidden");
+    $(e.target).addClass("hidden");
+	}
   delCountry(e){
-
+    var name=$(".selected span").text();
+    countryData.splice(countryData.indexOf(name), 1);
+    this.setState({ country: countryData});
+    $(".selected").removeClass("selected");
+    $(".nameDiv:first").addClass("selected");
 	}
   constructor (props) {
     super(props)
@@ -77,10 +93,14 @@ class App extends Component {
     }
     this.countryArr= {country: countryData};
     this.addNewCountry = this.addNewCountry.bind(this);
+    this.delCountry = this.delCountry.bind(this);
+    this.editCountryName = this.editCountryName.bind(this);
+
     this.searchUpdated = this.searchUpdated.bind(this)
   }
   render () {
-    const filteredEmails = [{email:"s",user:{name:"ashis"},subject:"454"}];//emails.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
+    const filteredEmails = [{email:"s",user:{name:"ashis"},subject:"454"}];
+
 
     return (
       <div>
@@ -101,7 +121,7 @@ class App extends Component {
 
                 {itemNo=-1}
                 <div id="">
-                  <CreateCountryLayout itemArray={countryData}></CreateCountryLayout>
+                  <CreateCountryLayout itemArray={this.countryArr.country} editFunc={this.editCountryName}></CreateCountryLayout>
                 </div>
 
                 <div className="btnDiv">
