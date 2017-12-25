@@ -5,7 +5,7 @@ import _ from 'lodash'
 var createReactClass = require('create-react-class');
 var itemNo;
 
-const countryData = ["India", "Italy", "China", "USA"];
+var countryData = ["India", "Italy", "China", "USA"];
 
 const KEYS_TO_FILTERS = ['user.name', 'subject', 'dest.name']
 
@@ -59,19 +59,22 @@ var CreateCountryColumn=createReactClass({displayName: "CreateCountryColumn",
 });
 
 class App extends Component {
+  addNewCountry(e){
+    countryData.push("New_country");
+    this.setState({ country: countryData});
+	}
+  delCountry(e){
+
+	}
   constructor (props) {
     super(props)
     this.state = {
       searchTerm: ''
     }
+    this.countryArr= {country: countryData};
+    this.addNewCountry = this.addNewCountry.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this)
   }
-  // addNewCountry:function(e){
-  //
-	// },
-  // delCountry:function(e){
-  //
-	// },
   render () {
     const filteredEmails = [{email:"s",user:{name:"ashis"},subject:"454"}];//emails.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
 
@@ -100,7 +103,7 @@ class App extends Component {
                 <div className="btnDiv">
                   <div className="row">
                     <button label="NEW" className="col newBtn" onClick={this.addNewCountry}>NEW</button>
-                    <button label="DELETE" className="col delBtn" onclick={this.delCountry}>DELETE</button>
+                    <button label="DELETE" className="col delBtn" onClick={this.delCountry}>DELETE</button>
                   </div>
                 </div>
             </div>
