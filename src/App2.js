@@ -9,7 +9,7 @@ import searchIcon2 from './searchInput.png'
 import _ from 'lodash'
 var createReactClass = require('create-react-class');
 var FontAwesome = require('react-fontawesome');
-var itemNo;
+var itemNo=-1;
 var counter=0;
 
 var countryData = ["India", "Italy", "China", "USA","India1", "Italy1", "China1", "USA1"];
@@ -56,7 +56,6 @@ var CreateCountryColumn=createReactClass({displayName: "CreateCountryColumn",
       focusClass+=" selected";
     }
     if(this.props.itemArray[itemNo] !== undefined) {
-      console.log(itemNo +"==================="+ this.props.itemArray[itemNo])
         div = <div className="col">
                   <div className={focusClass} onClick={this.setFocus}>
                     <img src= {iconImage}/>
@@ -65,7 +64,6 @@ var CreateCountryColumn=createReactClass({displayName: "CreateCountryColumn",
                   </div>
                 </div>
     } else {
-      console.log(counter);
       counter++;
         div = <div className="col">
                   <div className="nameDiv">
@@ -80,6 +78,7 @@ var CreateCountryColumn=createReactClass({displayName: "CreateCountryColumn",
 class App extends Component {
   addNewCountry(e){
     countryData.push("New_country");
+    itemNo=-1;
     this.setState({ countryArr: countryData});
 	}
   editCountryName(e){
@@ -87,6 +86,7 @@ class App extends Component {
     var newName = $(e.target).val();
     var index=countryData.indexOf(oldName);
     countryData.splice(index, 1, newName);
+    itemNo=-1;
     this.setState({ countryArr: countryData});
     $(e.target).addClass("hidden");
     $(e.target).closest(".nameDiv").find(".nameSpan").removeClass("hidden");
@@ -94,6 +94,7 @@ class App extends Component {
   delCountry(e){
     var name=$(".selected span").text();
     countryData.splice(countryData.indexOf(name), 1);
+    itemNo=-1;
     this.setState({ countryArr: countryData});
     $(".selected").removeClass("selected");
     $(".nameDiv:first").addClass("selected");
@@ -116,7 +117,6 @@ class App extends Component {
     this.delCountry = this.delCountry.bind(this);
     this.editCountryName = this.editCountryName.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
-    itemNo=-1;
   }
   render () {
     const filteredEmails = [];
