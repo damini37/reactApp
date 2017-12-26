@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-
 import $ from 'jquery';
 import SearchInput, {createFilter} from 'react-search-input';
 import iconImage from './icon.jpg'
@@ -7,7 +6,7 @@ import _ from 'lodash'
 var createReactClass = require('create-react-class');
 var itemNo;
 
-var countryData = ["India", "Italy", "China", "USA"];
+var countryData = ["India", "Italy", "China", "USA","India1", "Italy1", "China1", "USA1"];
 
 var CreateCountryLayout = createReactClass({displayName: "CreateCountryLayout",
   render:function(){
@@ -36,7 +35,7 @@ var CreateCountryColumn=createReactClass({displayName: "CreateCountryColumn",
 	},
   handleKeyPress:function(e){
     var code = e.keyCode || e.which;
-    if(code == 13) {
+    if(code === 13) {
       this.props.editFunc(e);
     }
   },
@@ -46,21 +45,25 @@ var CreateCountryColumn=createReactClass({displayName: "CreateCountryColumn",
   },
 	render: function() {
     itemNo++;
-    var val="", icon="", focusClass="nameDiv";
-    if(itemNo==0){
+    var div="", focusClass="nameDiv";
+    if(itemNo===0){
       focusClass+=" selected";
     }
-    if(this.props.itemArray[itemNo] != undefined) {
-      val = this.props.itemArray[itemNo];
-      icon = iconImage;
-    }
-    var div = <div className="col">
+    if(this.props.itemArray[itemNo] !== undefined) {
+        div = <div className="col">
                   <div className={focusClass} onClick={this.setFocus}>
-                    <img src= {icon}/>
-                    <span className="nameSpan" onClick={this.handleClick}>{val}</span>
-                    <input className="nameInput hidden"  defaultValue={val} onKeyPress={this.handleKeyPress}></input>
+                    <img src= {iconImage}/>
+                    <span className="nameSpan" onClick={this.handleClick}>{this.props.itemArray[itemNo]}</span>
+                    <input className="nameInput hidden"  defaultValue={this.props.itemArray[itemNo]} onKeyPress={this.handleKeyPress}></input>
                   </div>
                 </div>
+    } else {
+        div = <div className="col">
+                  <div className="nameDiv">
+                    <div className="blankDiv" ></div>
+                  </div>
+                </div>
+    }
     return div;
     }
 });
@@ -68,21 +71,21 @@ var CreateCountryColumn=createReactClass({displayName: "CreateCountryColumn",
 class App extends Component {
   addNewCountry(e){
     countryData.push("New_country");
-    this.setState({ country: countryData});
+    this.setState({ countryArr: countryData});
 	}
   editCountryName(e){
     var oldName = $(e.target).closest(".nameDiv").find(".nameSpan").text();
     var newName = $(e.target).val();
     var index=countryData.indexOf(oldName);
-    countryData.splice(1, index, newName);
-    this.setState({ country: countryData});
-    $(e.target).closest(".nameDiv").find(".nameSpan").removeClass("hidden");
+    countryData.splice(index, 1, newName);
+    this.setState({ countryArr: countryData});
     $(e.target).addClass("hidden");
+    $(e.target).closest(".nameDiv").find(".nameSpan").removeClass("hidden");
 	}
   delCountry(e){
     var name=$(".selected span").text();
     countryData.splice(countryData.indexOf(name), 1);
-    this.setState({ country: countryData});
+    this.setState({ countryArr: countryData});
     $(".selected").removeClass("selected");
     $(".nameDiv:first").addClass("selected");
 	}
@@ -91,7 +94,7 @@ class App extends Component {
     this.state = {
       searchTerm: ''
     }
-    this.countryArr= {country: countryData};
+    this.countryArr= countryData;
     this.addNewCountry = this.addNewCountry.bind(this);
     this.delCountry = this.delCountry.bind(this);
     this.editCountryName = this.editCountryName.bind(this);
@@ -103,10 +106,10 @@ class App extends Component {
 
 
     return (
-      <div>
+      <div className="container">
         <div className="row">
-          <div className="col-4"></div>
-            <div className="col-3 mainDiv">
+          <div className="col-3"></div>
+            <div className="col-4 mainDiv">
                 <div>
                   <SearchInput className="search-input" onChange={this.searchUpdated} />
                   {filteredEmails.map((email, index) => {
@@ -121,7 +124,7 @@ class App extends Component {
 
                 {itemNo=-1}
                 <div id="">
-                  <CreateCountryLayout itemArray={this.countryArr.country} editFunc={this.editCountryName}></CreateCountryLayout>
+                  <CreateCountryLayout itemArray={this.countryArr} editFunc={this.editCountryName}></CreateCountryLayout>
                 </div>
 
                 <div className="btnDiv">
