@@ -2,23 +2,29 @@ import React, {Component} from 'react'
 import $ from 'jquery';
 import SearchInput, {createFilter} from 'react-search-input';
 import iconImage from './icon.jpg'
-import crossImage from './cross.png'
-import searchIcon from './search.png'
-import searchIcon2 from './searchInput.png'
+import crossImage from './icon.jpg'
+import searchIcon from './icon.jpg'
+import searchIcon2 from './icon.jpg'
 
 import _ from 'lodash'
 var createReactClass = require('create-react-class');
-var FontAwesome = require('react-fontawesome');
 var itemNo=-1;
 var counter=0;
 
 var countryData = ["India", "Italy", "China", "USA","India1", "Italy1", "China1", "USA1"];
 
+var countryData1 = [
+  {name: 'India'},
+  {name: 'Italy'},
+  {name: 'China'},
+  {name: 'USA'},
+]
+
 var CreateCountryLayout = createReactClass({displayName: "CreateCountryLayout",
   render:function(){
       var row = [];
       for (var i = 0; i < 14; i++) {
-        row.push((<CreateCountryRow itemArray={this.props.itemArray} editFunc={this.props.editFunc} onClick={this.handleClick} ></CreateCountryRow>));
+        row.push((<CreateCountryRow key={`row${i}`} itemArray={this.props.itemArray} editFunc={this.props.editFunc} onClick={this.handleClick} ></CreateCountryRow>));
       }
       return (<div className="gridContainer" id="scrollDes">{row}</div>)
   }
@@ -28,7 +34,7 @@ var CreateCountryRow = createReactClass({displayName: "CreateCountryRow",
   render:function(){
       var column = [];
       for (var i = 0; i < 4; i++) {
-        column.push((<CreateCountryColumn itemArray={this.props.itemArray} editFunc={this.props.editFunc} onClick={this.handleClick}></CreateCountryColumn>));
+        column.push((<CreateCountryColumn key={`column${i}`} itemArray={this.props.itemArray} editFunc={this.props.editFunc} onClick={this.handleClick}></CreateCountryColumn>));
       }
       return (<div className="row">{column}</div>)
     }
@@ -107,20 +113,29 @@ class App extends Component {
     $(".searchInputDiv").addClass("hidden");
     $(".searchDiv").removeClass("hidden");
   }
+
+  searchUpdated(value){
+    this.setState({searchTerm: value})
+  }
+
   constructor (props) {
     super(props)
     this.state = {
       searchTerm: ''
     }
     this.countryArr= countryData;
+    this.countryArray1 = countryData1;
     this.addNewCountry = this.addNewCountry.bind(this);
     this.delCountry = this.delCountry.bind(this);
     this.editCountryName = this.editCountryName.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
   }
   render () {
-    const filteredEmails = [];
+    
+    const KEYS_TO_FILTERS = ['name']
+    const filteredCountryArray = this.countryArray1.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
 
+    console.log(filteredCountryArray)
 
     return (
       <div className="container">
@@ -143,20 +158,7 @@ class App extends Component {
                     </div>
                     <div className="searchInputDiv hidden">
                         <img src={searchIcon} />
-
-
-
-                        <SearchInput className="search-input " onChange={this.searchUpdated} />
-                        {filteredEmails.map((email, index) => {
-                          return (
-                            <div key={index} className="mail" key={email.id}>
-                              <div className="from">{email.user.name}</div>
-                              <div className="subject">{email.subject}</div>
-                            </div>
-                          )
-                        })}
-
-
+                        <SearchInput className="search-input" onChange={this.searchUpdated} />
                         <img src={searchIcon2} onClick={this.hideSearchbox}/>
 
                       </div>
