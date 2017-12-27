@@ -183,4 +183,5 @@ body {
   width:100%;
   text-overflow: ellipsis;
   font-size: 13px;
+  max-width: 75px;
 }

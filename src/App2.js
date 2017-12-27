@@ -6,11 +6,9 @@ import crossImage from './cross.png'
 import searchIcon from './search.png'
 import searchIcon2 from './searchInput.png'
 
-import _ from 'lodash'
+//import _ from 'lodash'
 var createReactClass = require('create-react-class');
 var itemNo=-1;
-
-//var countryData = ["India", "Italy", "China", "USA","India1", "Italy1", "China1", "USA1"];
 
 var countryData = [
   {name: 'India'},
@@ -22,7 +20,6 @@ var countryData = [
 
 var CreateCountryLayout = createReactClass({displayName: "CreateCountryLayout",
   render:function(){
-      console.log(this.props.itemArray);
       var row = [];
       for (var i = 0; i < 14; i++) {
         row.push((<CreateCountryRow key={`row${i}`} itemArray={this.props.itemArray} configData={this.props.configData} ></CreateCountryRow>));
@@ -51,7 +48,7 @@ var CreateCountryColumn=createReactClass({displayName: "CreateCountryColumn",
     if(this.props.itemArray[itemNo] !== undefined) {
         div = <div className="col">
                   <div className={focusClass} onClick={this.props.configData.focusDiv}>
-                    <img src= {iconImage}/>
+                    <img src= {iconImage} alt={this.props.itemArray[itemNo].name}/>
                     <span className="nameSpan" onClick={this.props.configData.enableEditBtn}>{this.props.itemArray[itemNo].name}</span>
                     <input className="nameInput hidden"  defaultValue={this.props.itemArray[itemNo].name} onKeyPress={this.props.configData.editCountryName}></input>
                   </div>
@@ -86,7 +83,6 @@ class App extends Component {
       var oldName = $(e.target).closest(".nameDiv").find(".nameSpan").text();
       var newName = $(e.target).val();
       var index = this.getObjData(oldName, countryData);
-      console.log(index);
       countryData[index].name = newName;
       itemNo=-1;
       this.setState({ countryArr: countryData});
@@ -109,8 +105,8 @@ class App extends Component {
     $(".search-input input").focus();
   }
   hideSearchbox(e){
-    // $(".searchInputDiv").addClass("hidden");
-    // $(".searchDiv").removeClass("hidden");
+    $(".searchInputDiv").addClass("hidden");
+    $(".searchDiv").removeClass("hidden");
   }
   searchUpdated(value){
     itemNo=-1;
