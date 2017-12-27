@@ -9,22 +9,6 @@ body {
 .mainDiv .row {
   margin:0 0px 0 0px;
 }
-.gridContainer .row {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display:         flex;
-  flex-wrap: wrap;
-}
-[class*="col"] {
-    float: none;
-    display: table-cell;
-    vertical-align: top;
-}
-.gridContainer .row > [class*='col-'] {
-  display: flex;
-  flex-direction: column;
-}
 .gridContainer .row .col {
   border: 7px solid lightgrey;
   height: 110%;
@@ -33,8 +17,9 @@ body {
 }
 .gridContainer .nameDiv{
   background-color: #bdbdbd;
-  max-width: 78px;
-  max-height: 102px;
+  max-width: 80px;
+  max-height: 110px;
+  min-height:100px;
   text-overflow: ellipsis;
   /* width:100%; */
   padding:0px;
@@ -69,7 +54,7 @@ body {
 }
 .gridContainer .blankDiv {
   width:100%;
-  height:75px;;
+  height:100px;
   background-color: #bdbdbd;
 }
 .btnDiv .col {
@@ -88,6 +73,7 @@ body {
   padding-left: 0px !important;
   padding-right: 0px !important;
   margin-top: 40px;
+  background-color: lightgrey;
 }
 
 .scrollbar
@@ -153,7 +139,7 @@ body {
   height: 15px;
   width: 15px;
   float: right;
-  margin-top:3%;
+  margin-top:2%;
   display:inline;
   margin-right:5px;
 }
@@ -161,7 +147,7 @@ body {
   height: 15px;
   width: 15px;
   float: left;
-  margin-top:3%;
+  margin-top:2%;
   display:inline;
 }
 .searchLabel{
@@ -180,6 +166,7 @@ body {
 .searchInputDiv{
   width:100%;
   height:30px;
+  background-color: white;
 }
 .search-input {
   width:70%;
@@ -187,7 +174,13 @@ body {
   padding-left: 5px;
 }
 .search-input input{
-  margin-top:3px;
+  margin-top:2px;
   border:transparent !important;
-  /* width:85% */
+  width:85%
+}
+.nameSpan, .nameInput{
+  height:25px;
+  width:100%;
+  text-overflow: ellipsis;
+  font-size: 13px;
 }
